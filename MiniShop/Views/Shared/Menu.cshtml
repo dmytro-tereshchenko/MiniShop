@@ -1,0 +1,20 @@
+﻿@model IEnumerable<string>
+<ul class="nav flex-column">
+    <li  class="nav-item">
+        @Html.ActionLink("All", "Index", "Home", null,
+            new { @class = "nav-link" })
+    </li>
+    @foreach (string cat in Model)
+    {
+    <li class="nav-item">
+        @Html.RouteLink(cat,
+            new { controller = "Home", action = "Index", category = cat, page = "1" },
+            new
+            {
+                @class = "nav-link" +
+            (cat == ViewBag.SelectedCategory ? " active" : "")
+            }
+            )
+    </li>
+    }
+</ul>
