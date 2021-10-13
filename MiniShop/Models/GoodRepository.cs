@@ -86,6 +86,9 @@ namespace MiniShop.Models
             if (oldGood != null)
             {
                 oldGood.Name = item.Name;
+                oldGood.Description = item.Description;
+                oldGood.Price = item.Price;
+                oldGood.CategoryId = item.CategoryId;
                 context.Entry(oldGood).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MiniShop.Util
 {
-    public class ShopDbInitializer: DropCreateDatabaseAlways<ShopContext>
+    public class ShopDbInitializer: DropCreateDatabaseIfModelChanges<ShopContext>
     {
         protected override void Seed(ShopContext context)
         {

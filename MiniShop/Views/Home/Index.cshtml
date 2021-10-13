@@ -2,6 +2,7 @@
 @using MiniShop.Util
 @{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Goods</h2>
@@ -27,5 +28,5 @@
 <br />
 <div class="btn-group">
     @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
-    new { page = b, category = Model.SelectedCategory }))
+    new { page = b, category = Model.SelectedCategory, searchTemplate = Model.SearchTemplate }))
 </div>

@@ -23,16 +23,16 @@
     <div class="container body-content">
         <div class="row panel">
             <div class="col-md-2">
-                @Html.Action("Menu", "Nav")
+                @Html.Action("Menu", "Nav", new { control="Goods" })
             </div>
             <div class="col-md-10">
                 @RenderBody()
             </div>
         </div><hr /><footer class="flex-row row justify-content-between">
     <div class="col-md-6">Development of web applications using ASP.NET and AJAX technologies</div>
-    @using (Html.BeginForm("SearchGood", "Home", FormMethod.Get, new { @class= "col-md-6 text-end" }))
+    @using (Html.BeginForm("SearchGood", "Goods", FormMethod.Get, new { @class = "col-md-6 text-end" }))
     {
-        @Html.Label("goodName", "Name of good", new { @class = "m-2"} )
+        @Html.Label("goodName", "Name of good", new { @class = "m-2" })
         @Html.TextBox("goodName")
         <input type="submit" value="Search" class="btn btn-secondary btn-sm" />
     }

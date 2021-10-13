@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<string>
 <ul class="nav flex-column">
     <li  class="nav-item">
-        @Html.ActionLink("All", "Index", "Home", null,
+        @Html.ActionLink("All", "Index", @ViewBag.Control as string, null,
             new { @class = "nav-link" })
     </li>
     @foreach (string cat in Model)
     {
     <li class="nav-item">
         @Html.RouteLink(cat,
-            new { controller = "Home", action = "Index", category = cat, page = "1" },
+            new { controller = @ViewBag.Control as string, action = "Index", category = cat, page = "1", searchTemplate = (string)null },
             new
             {
                 @class = "nav-link" +

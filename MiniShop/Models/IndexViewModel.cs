@@ -11,6 +11,7 @@ namespace MiniShop.Models
         public IEnumerable<Good> Goods { get; set; }
         public PageInfo PageInfo { get; set; }
         public string SelectedCategory { get; set; }
+        public string SearchTemplate { get; set; }
 
     }
 }

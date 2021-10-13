@@ -14,29 +14,31 @@ namespace MiniShop.Controllers
     {
         private IUnitOfWork unitOfWork;
         public HomeController(IUnitOfWork unitOfWork) => this.unitOfWork = unitOfWork;
-        public ActionResult Index(string category, int page = 1)
+        public async Task<ActionResult> Index(string category, int page = 1, string searchTemplate = null)
         {
             int pageSize = 3;
+            IEnumerable<Good> goods = searchTemplate == null ? unitOfWork .Goods.GetAll() : await unitOfWork.Goods.GetAllByName(searchTemplate);
             PageInfo pageInfo = new PageInfo
             {
                 PageNumber = page,
                 PageSize = pageSize,
-                TotalItems = category == null ? unitOfWork.Goods.Count :
-                unitOfWork.Goods.GetAll().Where(g => g.Category.Name == category).Count()
+                TotalItems = category == null ? goods.Count() :
+                goods.Where(g => g.Category.Name == category).Count()
 
             };
-            IEnumerable<Good> goods = category == null ? unitOfWork.Goods.GetAll().
+            IEnumerable<Good> goodsResult = category == null ? goods.
                 OrderBy(g => g.Id).
                 Skip((page - 1) * pageSize).Take(pageSize)
-                : unitOfWork.Goods.GetAll().
+                : goods.
                 Where(g => g.Category.Name == category).
                 OrderBy(g => g.Id).
                 Skip((page - 1) * pageSize).Take(pageSize);
             IndexViewModel viewModel = new IndexViewModel
             {
-                Goods = goods,
+                Goods = goodsResult,
                 PageInfo = pageInfo,
-                SelectedCategory = category
+                SelectedCategory = category,
+                SearchTemplate = searchTemplate
             };
             return View(viewModel);
         }
@@ -54,7 +56,7 @@ namespace MiniShop.Controllers
         }
         public async Task<ActionResult> SearchGood(string goodName)
         {
-            /*IEnumerable<Good> goods = await unitOfWork.Goods.GetAllByName(goodName);
+            IEnumerable<Good> goods = await unitOfWork.Goods.GetAllByName(goodName);
             if (goods != null)
             {
                 int pageSize = 3;
@@ -63,21 +65,21 @@ namespace MiniShop.Controllers
                     PageNumber = 1,
                     PageSize = pageSize,
                     TotalItems = goods.Count()
-
                 };
                 IndexViewModel viewModel = new IndexViewModel
                 {
                     Goods = goods,
                     PageInfo = pageInfo,
-                    SelectedCategory = null
+                    SelectedCategory = null,
+                    SearchTemplate = goodName
                 };
                 return View("Index", viewModel);
             }
             else
             {
                 return RedirectToAction("Index");
-            }*/
-            Good good = await unitOfWork.Goods.GetByName(goodName);
+            }
+            /*Good good = await unitOfWork.Goods.GetByName(goodName);
             if (good != null)
             {
                 return View("ShowGood", good);
@@ -85,7 +87,7 @@ namespace MiniShop.Controllers
             else
             {
                 return RedirectToAction("Index");
-            }
+            }*/
         }
     }
 }

@@ -18,13 +18,34 @@ namespace MiniShop
                 url: "",
                 defaults: new { controller = "Home", action = "Index", category = (string)null, page = 1 }
                 );
+            routes.MapRoute(
+                name: null,
+                url: "Admin",
+                defaults: new { controller = "Goods", action = "Index", category = (string)null, page = 1 }
+                );
+            routes.MapRoute(
+                null,
+                url: "Admin/Page{page}",
+                defaults: new { controller = "Goods", action = "Index", category = (string)null },
+                constraints: new { page = @"\d+" });
+            routes.MapRoute(null,
+                "Admin/{category}",
+                new { controller = "Goods", action = "Index", page = 1 });
+            routes.MapRoute(
+                name: null,
+                url: "Admin/{category}/Page{page}/{searchTemplate}",
+                defaults: new { controller = "Goods", action = "Index", searchTemplate = UrlParameter.Optional },
+                constraints: new { page = @"\d+" });
             routes.MapRoute(null,
                 "Show/Good/{id}",
                 new { controller = "Home", action = "ShowGood", id = 1 },
                 constraints: new { id = @"\d+" });
             routes.MapRoute(null,
+                "Admin/Search/Good/{goodName}",
+                new { controller = "Goods", action = "SearchGood", goodName = UrlParameter.Optional });
+            routes.MapRoute(null,
                 "Search/Good/{goodName}",
-                new { controller = "Home", action = "SearchGood", goodName = "" });
+                new { controller = "Home", action = "SearchGood", goodName = UrlParameter.Optional });
             routes.MapRoute(
                 null,
                 url: "Page{page}",
@@ -35,8 +56,8 @@ namespace MiniShop
                 new { controller = "Home", action = "Index", page = 1 });
             routes.MapRoute(
                 name: null,
-                url: "{category}/Page{page}",
-                defaults: new { controller = "Home", action = "Index" },
+                url: "{category}/Page{page}/{searchTemplate}",
+                defaults: new { controller = "Home", action = "Index", searchTemplate = UrlParameter.Optional },
                 constraints: new { page = @"\d+" });
 
             routes.MapRoute(
